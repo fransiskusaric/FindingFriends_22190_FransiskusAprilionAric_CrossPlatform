@@ -1,0 +1,40 @@
+.error-message {
+  color: red;
+}
+
+ion-content {
+  --ion-text-color: #A27575;
+}
+
+ion-title {
+  padding: 60px 0px 80px;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bolder;
+  color: #A27575;
+}
+
+form {
+  display: block;
+  margin: auto;
+  width: 80%;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 50px;
+  width: 80%;
+  font-size: 12px;
+}
+
+.bottom p { text-align: center; }
+
+.bottom a { cursor: pointer; }
+
+ion-button {
+  --border-radius: 15px;
+  border-radius: 15px;
+  color: black;
+  --border-color: #A27575;
+  border-color: #A27575;
+}
