@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {NavController} from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import {ProfileService} from '../../services/profile.service';
+import { map } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +12,7 @@ import {NavController} from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  user: any;
   // tslint:disable-next-line:variable-name
   validations_form: FormGroup;
   errorMessage = '';
@@ -26,8 +30,10 @@ export class LoginPage implements OnInit {
 
   constructor(
       private authSrv: AuthService,
+      private profileSrv: ProfileService,
       private formBuilder: FormBuilder,
-      private navCtrl: NavController
+      private navCtrl: NavController,
+      private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -46,6 +52,18 @@ export class LoginPage implements OnInit {
   loginUser(value){
     this.authSrv.loginUser(value)
         .then(res => {
+          console.log(res);
+          this.profileSrv.getAllUser().snapshotChanges().pipe(
+              map(changes => changes.map(c => ({key: c.payload.key, ...c.payload.val()})))
+          ).subscribe(data => {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].id === res.user.uid) {
+                this.user = data[i];
+              }
+            }
+            console.log('ready?', this.user);
+            this.profileSrv.setUser(this.user);
+          });
           this.errorMessage = '';
           this.navCtrl.navigateForward('/home');
         }, err => {

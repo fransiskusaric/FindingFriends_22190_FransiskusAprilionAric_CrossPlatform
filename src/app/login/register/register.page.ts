@@ -19,6 +19,10 @@ export class RegisterPage implements OnInit {
   // tslint:disable-next-line:variable-name
   validation_messages = {
     name: [
+      {type: 'required', message: 'Name is required.'},
+      {type: 'maxLength', message: 'Maximum is 20 characters long'}
+    ],
+    nim: [
       {type: 'required', message: 'Name is required.'}
     ],
     email: [
@@ -47,6 +51,9 @@ export class RegisterPage implements OnInit {
       name: new FormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(20)
+      ])),
+      nim: new FormControl('', Validators.compose([
+        Validators.required
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -81,6 +88,7 @@ export class RegisterPage implements OnInit {
           const user: User = {
             id: res.user.uid,
             name: value.name,
+            nim: value.nim,
             picture: 'assets/icon/nemo.png'
           };
           this.profileSrv.createUser(user);
