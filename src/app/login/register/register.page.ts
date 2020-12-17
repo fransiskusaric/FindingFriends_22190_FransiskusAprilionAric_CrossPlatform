@@ -89,7 +89,9 @@ export class RegisterPage implements OnInit {
             id: res.user.uid,
             name: value.name,
             nim: value.nim,
-            picture: 'assets/icon/nemo.png'
+            picture: 'assets/icon/nemo.png',
+            lat: 0,
+            lng: 0
           };
           this.profileSrv.createUser(user);
           this.goToLogin();

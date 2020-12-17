@@ -1,6 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Storage} from '@ionic/storage';
+import {User} from '../../model/user.model';
+import {ProfileService} from '../../services/profile.service';
 
 declare var google: any;
+const USER_KEY = 'USER';
 
 @Component({
   selector: 'app-map',
@@ -8,6 +12,8 @@ declare var google: any;
   styleUrls: ['./map.page.scss'],
 })
 export class MapPage implements OnInit {
+  key: any;
+  user: User;
   marker: any;
   map: any;
   infoWindow: any = new google.maps.InfoWindow();
@@ -17,9 +23,32 @@ export class MapPage implements OnInit {
     lng: 113.9213
   };
 
-  constructor() { }
+  constructor(
+      private storage: Storage,
+      private profileSrv: ProfileService
+  ) { }
 
   ngOnInit() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position: Position) => {
+        const mylocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.storage.get(USER_KEY).then((val) => {
+          this.key = val.key;
+          this.user = {
+            id: val.id,
+            name: val.name,
+            nim: val.nim,
+            picture: val.picture,
+            lat: mylocation.lat,
+            lng: mylocation.lng,
+          };
+          this.profileSrv.updateUser(this.key, this.user);
+        });
+      });
+    }
   }
 
   ionViewDidEnter() {

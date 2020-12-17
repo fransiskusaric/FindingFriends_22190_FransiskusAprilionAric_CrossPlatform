@@ -31,18 +31,17 @@ export class AuthService {
   logoutUser() {
     return new Promise((resolve, reject) => {
       if (this.fireAuth.currentUser) {
-        this.fireAuth.signOut()
-            .then(() => {
-              console.log('Log Out');
-              resolve();
-            }).catch((error) => {
-              reject();
+        this.fireAuth.signOut().then(() => {
+          resolve();
+          console.log('logout success', this.fireAuth.currentUser);
+        }).catch((error) => {
+          reject();
         });
       }
     });
   }
 
-  userDetails() {
-    return this.fireAuth.user;
+  getAllAccount() {
+    return this.fireAuth.getRedirectResult();
   }
 }
