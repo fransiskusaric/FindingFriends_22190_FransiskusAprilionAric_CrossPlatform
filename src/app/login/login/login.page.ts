@@ -73,10 +73,12 @@ export class LoginPage implements OnInit {
               for (let i = 0; i < frnd.length; i++) {
                 if (frnd[i].id === res.user.uid) {
                   this.friends[j] = frnd[i]; j++;
+                  console.log(frnd[i].id, res.user.uid);
                 }
               }
               console.log('friends', this.friends);
-              if (!this.friends) {
+              if (this.friends.length > 0) {
+                console.log('friends not null');
                 let n = 0;
                 let m = 0;
                 for (let i = 0; i < data.length; i++) {
@@ -91,6 +93,7 @@ export class LoginPage implements OnInit {
                   }
                 }
               } else {
+                console.log('friends null')
                 let m = 0;
                 for (let i = 0; i < data.length; i++) {
                   if (data[i].id !== res.user.uid) {
