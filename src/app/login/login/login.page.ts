@@ -76,13 +76,26 @@ export class LoginPage implements OnInit {
                 }
               }
               console.log('friends', this.friends);
-              let n = 0; let m = 0;
-              for (let i = 0; i < data.length; i++) {
-                for (let j = 0; j < this.friends.length; j++) {
-                  if (data[i].id === this.friends[j].friendid) {
-                    this.userfriends[n] = data[i]; n++;
-                  } else if (data[i].id !== res.user.uid) {
-                    this.notfriends[m] = data[i]; m++;
+              if (!this.friends) {
+                let n = 0;
+                let m = 0;
+                for (let i = 0; i < data.length; i++) {
+                  for (let j = 0; j < this.friends.length; j++) {
+                    if (data[i].id === this.friends[j].friendid) {
+                      this.userfriends[n] = data[i];
+                      n++;
+                    } else if (data[i].id !== res.user.uid) {
+                      this.notfriends[m] = data[i];
+                      m++;
+                    }
+                  }
+                }
+              } else {
+                let m = 0;
+                for (let i = 0; i < data.length; i++) {
+                  if (data[i].id !== res.user.uid) {
+                    this.notfriends[m] = data[i];
+                    m++;
                   }
                 }
               }
